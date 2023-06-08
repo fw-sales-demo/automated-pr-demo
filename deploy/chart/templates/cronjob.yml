@@ -24,31 +24,29 @@ spec:
           serviceAccountName: {{ include "helm-release-pruner.fullname" . }}
           restartPolicy: {{ .Values.job.restartPolicy }}
           containers:
-          - name: pruner
-            image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-            imagePullPolicy: {{ .Values.image.pullPolicy }}
-            command: ["/usr/local/bin/start-up.sh"]
-            volumeMounts:
-            - mountPath: /usr/local/bin/start-up.sh
-              name: config
-              subPath: start-up.sh
-            {{- if .Values.job.debug }}
-            env:
-            - name: DEBUG
-              value: "1"
-            {{- end }}
-            securityContext:
-              readOnlyRootFilesystem: true
-              allowPrivilegeEscalation: false
-              runAsNonRoot: false
-              runAsUser: 10324
-              capabilities:
-                add:
-                  - ALL
-            resources:
+            - name: pruner
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              command: ["/usr/local/bin/start-up.sh"]
+              volumeMounts:
+                - mountPath: /usr/local/bin/start-up.sh
+                  name: config
+                  subPath: start-up.sh
+              {{- if .Values.job.debug }}
+              env:
+                - name: DEBUG
+                  value: "1"
+              {{- end }}
+              securityContext:
+                readOnlyRootFilesystem: true
+                allowPrivilegeEscalation: false
+                runAsNonRoot: false
+                runAsUser: 10324
+                capabilities: {}
+              resources:
               {{- toYaml .Values.job.resources | nindent 14 }}
           volumes:
-          - name: config
-            configMap:
-              name: {{ template "helm-release-pruner.fullname" . }}
-              defaultMode: 0555
+            - name: config
+              configMap:
+                name: {{ template "helm-release-pruner.fullname" . }}
+                defaultMode: 0555
