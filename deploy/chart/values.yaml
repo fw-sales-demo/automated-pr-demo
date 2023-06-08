@@ -26,9 +26,6 @@ job:
     name: ExistingServiceAccountName
   # resources -- The resources block for the job pod
   resources:
-    limits:
-      cpu: 25m
-      memory: 32Mi
     requests:
       cpu: 25m
       memory: 32M
