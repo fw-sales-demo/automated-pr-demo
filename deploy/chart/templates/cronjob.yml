@@ -46,7 +46,7 @@ spec:
                   add:
                     - ALL
               resources:
-              {{- toYaml .Values.job.resources | nindent 16 }}
+                {{- toYaml .Values.job.resources | nindent 16 }}
           volumes:
             - name: config
               configMap:
