@@ -38,15 +38,15 @@ spec:
                   value: "1"
               {{- end }}
               securityContext:
-                readOnlyRootFilesystem: false
+                readOnlyRootFilesystem: true
                 allowPrivilegeEscalation: false
                 runAsNonRoot: true
                 runAsUser: 10324
                 capabilities:
                   add:
-                  - ALL
+                    - ALL
               resources:
-                {{- toYaml .Values.job.resources | nindent 16 }}
+              {{- toYaml .Values.job.resources | nindent 16 }}
           volumes:
             - name: config
               configMap:
